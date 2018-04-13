@@ -1,0 +1,52 @@
+[
+  {
+    "type": "Input",
+    "title": "Ingresa tu nombre"
+  },
+  {
+    "type": "Input",
+    "title": "Ingresa tu Apellido"
+  },
+  {
+    "type": "RadioButton",
+    "title": "Ingresa tu Apellido",
+    "value": 2,
+    "list": [
+      {
+        "title": "product 1",
+        "value": 1
+      },
+      {
+        "title": "product 2",
+        "value": 2
+      },
+      {
+        "title": "product 3",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "type": "Switch",
+    "title": "Switch test",
+    "switchValue": false
+  },
+  {
+    "type": "Checkbox",
+    "title": "Checkbox test",
+    "list": [
+      {
+        "title": "product 1",
+        "value": true
+      },
+      {
+        "title": "product 2",
+        "value": false
+      },
+      {
+        "title": "product 3",
+        "value": false
+      }
+    ]
+  }
+]
