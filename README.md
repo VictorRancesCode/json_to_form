@@ -11,6 +11,18 @@ A flutter plugin to use convert Json to Form
 
 
 ## Instalation
+
+* Add this to your package's pubspec.yaml file:
+```
+dependencies:
+  json_to_form: "^0.0.1"
+```
+* You can install packages from the command line:
+  with Flutter:
+```
+$ flutter packages get
+```
+
 * Import it Now in your Dart code, you can use:
 ```
  import 'package:json_to_form/json_to_form.dart'; 
@@ -133,6 +145,21 @@ String form = json.encode([
        ),
      );
    }
+```
+When there is a change in the form, the (dynamic response;) is updated,
+```
+               onChanged: (dynamic response) {
+                 this.response = response;
+               },
+```
+when text is added to the TextField, add field called response
+```
+// initial form_send_email
+[{"type":"Input","title":"Subject","placeholder":"Subject"},{"type":"TareaText","title":"Message","placeholder":"Content"}]
+
+// add text (hi) in TextField Message, update dynamic response; and add field called response
+[{type: Input, title: Subject, placeholder: Subject}, {type: TareaText, title: Message, placeholder: Content, response: hi }]
+
 ```
 ## Getting Started
 
