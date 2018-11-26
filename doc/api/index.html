@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="made with love by dartdoc 0.21.1">
+  <meta name="description" content="json_to_form API docs, for the Dart programming language.">
+  <title>json_to_form - Dart API docs</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+
+</head>
+
+<body>
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://github.com/VictorRancesCode/json_to_form">json_to_form package</a></li>
+  </ol>
+  <div class="self-name">json_to_form</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <h5><span class="package-name">json_to_form</span> <span class="package-kind">package</span></h5>
+    <ol>
+          <li class="section-title">Libraries</li>
+          <li><a href="json_to_form/json_to_form-library.html">json_to_form</a></li>
+    </ol>
+  </div>
+
+  <div class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <section class="desc markdown">
+        <h1 id="convert-json-to-form--for-flutter-apps">Convert Json to Form  for Flutter apps.</h1>
+<p>A flutter plugin to use convert Json to Form</p><ul><li><a href="https://github.com/VictorRancesCode/json_to_form/tree/master/example">Example</a></li></ul><p align="center">
+  <img src="https://raw.githubusercontent.com/VictorRancesCode/json_to_form/master/image1.png" width="350">
+  <img src="https://raw.githubusercontent.com/VictorRancesCode/json_to_form/master/image2.png" width="350">
+</p>
+<h2 id="instalation">Instalation</h2><ul><li>Add this to your package's pubspec.yaml file:</li></ul>
+<pre class="language-dart"><code>dependencies:
+  json_to_form: "^0.0.1"
+</code></pre><ul><li>You can install packages from the command line:
+with Flutter:</li></ul>
+<pre class="language-dart"><code>$ flutter packages get
+</code></pre><ul><li>Import it Now in your Dart code, you can use:</li></ul>
+<pre class="language-dart"><code> import 'package:json_to_form/json_to_form.dart'; 
+</code></pre>
+<h2 id="usage">Usage</h2><ul><li>TextField</li></ul>
+<pre class="language-dart"><code>  String form = json.encode([
+    {
+      'type': 'Input',
+      'title': 'Hi Group',
+      'placeholder': "Hi Group flutter"
+    },
+    {
+      'type': 'Password',
+      'title': 'Password',
+    },
+    {
+      'type': 'Email', 
+      'title': 'Email test',
+      'placeholder': "hola a todos"
+    },
+    {
+      'type': 'TareaText',
+      'title': 'TareaText test',
+      'placeholder': "hola a todos"
+    },
+  ]);
+</code></pre><ul><li>Radio</li></ul>
+<pre class="language-dart"><code> String form = json.encode([
+    {
+      'type': 'RadioButton',
+      'title': 'Radio Button tests',
+      'value': 2,
+      'list': [
+        {
+          'title': "product 1",
+          'value': 1,
+        },
+        {
+          'title': "product 2",
+          'value': 2,
+        },
+        {
+          'title': "product 3",
+          'value': 3,
+        }
+      ]
+    },
+  ]);
+</code></pre><ul><li>Switch</li></ul>
+<pre class="language-dart"><code>String form = json.encode([
+    {
+      'type': 'Switch',
+      'title': 'Switch test',
+      'switchValue': false,
+    },
+  ]);
+</code></pre><ul><li>Checkbox</li></ul>
+<pre class="language-dart"><code>String form = json.encode([
+    {
+      'type': 'Checkbox',
+      'title': 'Checkbox test 2',
+      'list': [
+        {
+          'title': "product 1",
+          'value': true,
+        },
+        {
+          'title': "product 2",
+          'value': true,
+        },
+        {
+          'title': "product 3",
+          'value': false,
+        }
+      ]
+    },
+  ]);
+</code></pre><ul><li>Example</li></ul>
+<pre class="language-dart"><code> String form_send_email = json.encode([
+    {'type': 'Input', 'title': 'Subject', 'placeholder': "Subject"},
+    {'type': 'TareaText', 'title': 'Message', 'placeholder': "Content"},
+  ]);
+ dynamic response;
+ 
+ @override
+   Widget build(BuildContext context) {
+     return new Scaffold(
+       appBar: new AppBar(
+         title: new Text(widget.title),
+       ),
+       body: new SingleChildScrollView(
+         child: new Container(
+           child: new Column(children: &lt;Widget&gt;[
+             new CoreForm(
+               form: form,
+               onChanged: (dynamic response) {
+                 this.response = response;
+               },
+             ),
+             new RaisedButton(
+                 child: new Text('Send'),
+                 onPressed: () {
+                   print(this.response.toString());
+                 })
+           ]),
+         ),
+       ),
+     );
+   }
+</code></pre>
+<p>When there is a change in the form, the (dynamic response;) is updated,</p>
+<pre class="language-dart"><code>               onChanged: (dynamic response) {
+                 this.response = response;
+               },
+</code></pre>
+<p>when text is added to the TextField, add field called response</p>
+<pre class="language-dart"><code>// initial form_send_email
+[{"type":"Input","title":"Subject","placeholder":"Subject"},{"type":"TareaText","title":"Message","placeholder":"Content"}]
+
+// add text (hi) in TextField Message, update dynamic response; and add field called response
+[{type: Input, title: Subject, placeholder: Subject}, {type: TareaText, title: Message, placeholder: Content, response: hi }]
+
+</code></pre>
+<h2 id="getting-started">Getting Started</h2>
+<p>For help getting started with Flutter, view our online <a href="https://flutter.io/">documentation</a>.</p>
+<p>For help on editing package code, view the <a href="https://flutter.io/developing-packages/">documentation</a>.</p>
+      </section>
+      
+        <section class="summary">
+            <h2>Libraries</h2>
+          <dl>
+            <dt id="json_to_form">
+              <span class="name"><a href="json_to_form/json_to_form-library.html">json_to_form</a></span> 
+            </dt>
+            <dd>
+              
+            </dd>          </dl>
+        </section>
+
+  </div> <!-- /.main-content -->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    json_to_form 0.0.2
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+
+
+</body>
+
+</html>
