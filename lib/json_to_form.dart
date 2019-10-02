@@ -53,8 +53,8 @@ class _CoreFormState extends State<CoreForm> {
         listWidget.add(new TextField(
           controller: null,
           inputFormatters: item['validator'] != null && item['validator'] != '' ? [
-            item['validator'] == 'digitsOnly' ? WhitelistingTextInputFormatter(RegExp('[0-9]')) : WhitelistingTextInputFormatter,
-            item['validator'] == 'textOnly' ? WhitelistingTextInputFormatter(RegExp('[a-zA-Z]')) : WhitelistingTextInputFormatter,
+            item['validator'] == 'digitsOnly' ? WhitelistingTextInputFormatter(RegExp('[0-9]')) : null,
+            item['validator'] == 'textOnly' ? WhitelistingTextInputFormatter(RegExp('[a-zA-Z]')) : null,
           ] : null,
           decoration: new InputDecoration(
             labelText: widget.labelText,
