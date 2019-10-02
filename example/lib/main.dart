@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     {'type': 'TareaText', 'title': 'Message', 'placeholder': "Content"},
   ]);
   String form = json.encode([
-    {'type': 'Input', 'title': 'Hi Group', 'placeholder': "Hi Group flutter"},
+    {'type': 'Input', 'title': 'Hi Group', 'placeholder': "Hi Group flutter", 'validator': 'digitsOnly'},
     {
       'type': 'Password',
       'title': 'Password',

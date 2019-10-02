@@ -2,22 +2,25 @@ library json_to_form;
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
 class CoreForm extends StatefulWidget {
-
   final String form;
   final dynamic formMap;
   final EdgeInsets padding;
+  final String labelText;
   final ValueChanged<dynamic> onChanged;
   final OutlineInputBorder enabledBorder;
   final OutlineInputBorder errorBorder;
   final OutlineInputBorder disabledBorder;
   final OutlineInputBorder focusedErrorBorder;
   final OutlineInputBorder focusedBorder;
+
   const CoreForm({
     @required this.form,
     @required this.onChanged,
+    this.labelText,
     this.padding,
     this.formMap,
     this.enabledBorder,
@@ -27,11 +30,8 @@ class CoreForm extends StatefulWidget {
     this.disabledBorder,
   });
 
-
-
   @override
-  _CoreFormState createState() =>
-      new _CoreFormState(formMap ?? json.decode(form));
+  _CoreFormState createState() => new _CoreFormState(formMap ?? json.decode(form));
 }
 
 class _CoreFormState extends State<CoreForm> {
@@ -43,10 +43,7 @@ class _CoreFormState extends State<CoreForm> {
     List<Widget> listWidget = new List<Widget>();
 
     for (var item in formItems) {
-      if (item['type'] == "Input" ||
-          item['type'] == "Password" ||
-          item['type'] == "Email" ||
-          item['type'] == "TareaText") {
+      if (item['type'] == "Input" || item['type'] == "Password" || item['type'] == "Email" || item['type'] == "TareaText") {
         listWidget.add(new Container(
             padding: new EdgeInsets.only(top: 5.0, bottom: 5.0),
             child: new Text(
@@ -55,7 +52,12 @@ class _CoreFormState extends State<CoreForm> {
             )));
         listWidget.add(new TextField(
           controller: null,
+          inputFormatters: item['validator'] != null && item['validator'] != '' ? [
+            item['validator'] == 'digitsOnly' ? WhitelistingTextInputFormatter(RegExp('[0-9]')) : WhitelistingTextInputFormatter,
+            item['validator'] == 'textOnly' ? WhitelistingTextInputFormatter(RegExp('[a-zA-Z]')) : WhitelistingTextInputFormatter,
+          ] : null,
           decoration: new InputDecoration(
+            labelText: widget.labelText,
             enabledBorder: widget.enabledBorder ?? null,
             errorBorder: widget.errorBorder ?? null,
             focusedErrorBorder: widget.focusedErrorBorder ?? null,
@@ -73,16 +75,12 @@ class _CoreFormState extends State<CoreForm> {
       }
 
       if (item['type'] == "RadioButton") {
-        listWidget.add(new Container(
-            margin: new EdgeInsets.only(top: 5.0, bottom: 5.0),
-            child: new Text(item['title'],
-                style: new TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 16.0))));
+        listWidget.add(
+            new Container(margin: new EdgeInsets.only(top: 5.0, bottom: 5.0), child: new Text(item['title'], style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0))));
         radioValue = item['value'];
         for (var i = 0; i < item['list'].length; i++) {
           listWidget.add(new Row(children: <Widget>[
-            new Expanded(
-                child: new Text(item['list'][i]['title'])),
+            new Expanded(child: new Text(item['list'][i]['title'])),
             new Radio<int>(
                 value: item['list'][i]['value'],
                 groupValue: radioValue,
@@ -114,15 +112,11 @@ class _CoreFormState extends State<CoreForm> {
       }
 
       if (item['type'] == "Checkbox") {
-        listWidget.add(new Container(
-            margin: new EdgeInsets.only(top: 5.0, bottom: 5.0),
-            child: new Text(item['title'],
-                style: new TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 16.0))));
+        listWidget.add(
+            new Container(margin: new EdgeInsets.only(top: 5.0, bottom: 5.0), child: new Text(item['title'], style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0))));
         for (var i = 0; i < item['list'].length; i++) {
           listWidget.add(new Row(children: <Widget>[
-            new Expanded(
-                child: new Text(item['list'][i]['title'])),
+            new Expanded(child: new Text(item['list'][i]['title'])),
             new Checkbox(
                 value: item['list'][i]['value'],
                 onChanged: (bool value) {
