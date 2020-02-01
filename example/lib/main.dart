@@ -46,25 +46,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
 
-  String form_send_email = json.encode([
+  String sendEmailForm = json.encode([
     {'type': 'Input', 'title': 'Subject', 'placeholder': "Subject"},
     {'type': 'TareaText', 'title': 'Message', 'placeholder': "Content"},
   ]);
   String form = json.encode([
-    {'type': 'Input', 'title': 'Hi Group', 'placeholder': "Hi Group flutter"},
+    {'type': 'Input', 'title': 'Hi Group', 'placeholder': "Hi Group flutter", 'validator': 'digitsOnly'},
     {
       'type': 'Password',
       'title': 'Password',
@@ -159,6 +148,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // in the middle of the parent.
           child: new Column(children: <Widget>[
             new CoreForm(
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: BorderSide(width: 2, color: Colors.red)
+              ),
               form: form,
               onChanged: (dynamic response) {
                 this.response = response;
@@ -172,11 +165,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ]),
         ),
       ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: new Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
