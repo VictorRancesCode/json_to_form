@@ -31,7 +31,8 @@ class CoreForm extends StatefulWidget {
   });
 
   @override
-  _CoreFormState createState() => new _CoreFormState(formMap ?? json.decode(form));
+  _CoreFormState createState() =>
+      new _CoreFormState(formMap ?? json.decode(form));
 }
 
 class _CoreFormState extends State<CoreForm> {
@@ -43,7 +44,10 @@ class _CoreFormState extends State<CoreForm> {
     List<Widget> listWidget = new List<Widget>();
 
     for (var item in formItems) {
-      if (item['type'] == "Input" || item['type'] == "Password" || item['type'] == "Email" || item['type'] == "TareaText") {
+      if (item['type'] == "Input" ||
+          item['type'] == "Password" ||
+          item['type'] == "Email" ||
+          item['type'] == "TareaText") {
         listWidget.add(new Container(
             padding: new EdgeInsets.only(top: 5.0, bottom: 5.0),
             child: new Text(
@@ -52,10 +56,16 @@ class _CoreFormState extends State<CoreForm> {
             )));
         listWidget.add(new TextField(
           controller: null,
-          inputFormatters: item['validator'] != null && item['validator'] != '' ? [
-            item['validator'] == 'digitsOnly' ? WhitelistingTextInputFormatter(RegExp('[0-9]')) : null,
-            item['validator'] == 'textOnly' ? WhitelistingTextInputFormatter(RegExp('[a-zA-Z]')) : null,
-          ] : null,
+          inputFormatters: item['validator'] != null && item['validator'] != ''
+              ? [
+                  item['validator'] == 'digitsOnly'
+                      ? WhitelistingTextInputFormatter(RegExp('[0-9]'))
+                      : null,
+                  item['validator'] == 'textOnly'
+                      ? WhitelistingTextInputFormatter(RegExp('[a-zA-Z]'))
+                      : null,
+                ]
+              : null,
           decoration: new InputDecoration(
             labelText: widget.labelText,
             enabledBorder: widget.enabledBorder ?? null,
@@ -75,23 +85,30 @@ class _CoreFormState extends State<CoreForm> {
       }
 
       if (item['type'] == "RadioButton") {
-        listWidget.add(
-            new Container(margin: new EdgeInsets.only(top: 5.0, bottom: 5.0), child: new Text(item['title'], style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0))));
+        listWidget.add(new Container(
+            margin: new EdgeInsets.only(top: 5.0, bottom: 5.0),
+            child: new Text(item['title'],
+                style: new TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 16.0))));
         radioValue = item['value'];
         for (var i = 0; i < item['list'].length; i++) {
-          listWidget.add(new Row(children: <Widget>[
-            new Expanded(child: new Text(item['list'][i]['title'])),
-            new Radio<int>(
-                value: item['list'][i]['value'],
-                groupValue: radioValue,
-                onChanged: (int value) {
-                  this.setState(() {
-                    radioValue = value;
-                    item['value'] = value;
-                    _handleChanged();
-                  });
-                })
-          ]));
+          listWidget.add(
+            new Row(
+              children: <Widget>[
+                new Expanded(child: new Text(item['list'][i]['title'])),
+                new Radio<int>(
+                    value: item['list'][i]['value'],
+                    groupValue: radioValue,
+                    onChanged: (int value) {
+                      this.setState(() {
+                        radioValue = value;
+                        item['value'] = value;
+                        _handleChanged();
+                      });
+                    })
+              ],
+            ),
+          );
         }
       }
 
@@ -112,20 +129,27 @@ class _CoreFormState extends State<CoreForm> {
       }
 
       if (item['type'] == "Checkbox") {
-        listWidget.add(
-            new Container(margin: new EdgeInsets.only(top: 5.0, bottom: 5.0), child: new Text(item['title'], style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0))));
+        listWidget.add(new Container(
+            margin: new EdgeInsets.only(top: 5.0, bottom: 5.0),
+            child: new Text(item['title'],
+                style: new TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 16.0))));
         for (var i = 0; i < item['list'].length; i++) {
-          listWidget.add(new Row(children: <Widget>[
-            new Expanded(child: new Text(item['list'][i]['title'])),
-            new Checkbox(
-                value: item['list'][i]['value'],
-                onChanged: (bool value) {
-                  this.setState(() {
-                    item['list'][i]['value'] = value;
-                    _handleChanged();
-                  });
-                })
-          ]));
+          listWidget.add(
+            new Row(
+              children: <Widget>[
+                new Expanded(child: new Text(item['list'][i]['title'])),
+                new Checkbox(
+                    value: item['list'][i]['value'],
+                    onChanged: (bool value) {
+                      this.setState(() {
+                        item['list'][i]['value'] = value;
+                        _handleChanged();
+                      });
+                    })
+              ],
+            ),
+          );
         }
       }
     }

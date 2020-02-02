@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:json_to_form/json_to_form.dart';
-
+import 'all_fields.dart';
+import 'login.dart';
+import 'register.dart';
+import 'register_with_map.dart';
+import 'all_fields_v1.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
@@ -22,7 +25,15 @@ class MyApp extends StatelessWidget {
         // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.red,
       ),
-      home: new MyHomePage(title: 'Flutter Json To Form'),
+      initialRoute: "/",
+      routes: {
+        '/': (context) => MyHomePage(),
+        '/allfieldsv1': (context) => AllFieldsV1(),
+        '/allfields': (context) => AllFields(),
+        '/login': (context) => Login(),
+        '/register': (context) => Register(),
+        '/registerMap': (context) => RegisterMap(),
+      },
     );
   }
 }
@@ -46,90 +57,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
-  String sendEmailForm = json.encode([
-    {'type': 'Input', 'title': 'Subject', 'placeholder': "Subject"},
-    {'type': 'TareaText', 'title': 'Message', 'placeholder': "Content"},
-  ]);
-  String form = json.encode([
-    {'type': 'Input', 'title': 'Hi Group', 'placeholder': "Hi Group flutter", 'validator': 'digitsOnly'},
-    {
-      'type': 'Password',
-      'title': 'Password',
-    },
-    {'type': 'Email', 'title': 'Email test', 'placeholder': "hola a todos"},
-    {
-      'type': 'TareaText',
-      'title': 'TareaText test',
-      'placeholder': "hola a todos"
-    },
-    {
-      'type': 'RadioButton',
-      'title': 'Radio Button tests',
-      'value': 2,
-      'list': [
-        {
-          'title': "product 1",
-          'value': 1,
-        },
-        {
-          'title': "product 2",
-          'value': 2,
-        },
-        {
-          'title': "product 3",
-          'value': 3,
-        }
-      ]
-    },
-    {
-      'type': 'Switch',
-      'title': 'Switch test',
-      'switchValue': false,
-    },
-    {
-      'type': 'Checkbox',
-      'title': 'Checkbox test',
-      'list': [
-        {
-          'title': "product 1",
-          'value': true,
-        },
-        {
-          'title': "product 2",
-          'value': false,
-        },
-        {
-          'title': "product 3",
-          'value': false,
-        }
-      ]
-    },
-    {
-      'type': 'Checkbox',
-      'title': 'Checkbox test 2',
-      'list': [
-        {
-          'title': "product 1",
-          'value': true,
-        },
-        {
-          'title': "product 2",
-          'value': true,
-        },
-        {
-          'title': "product 3",
-          'value': false,
-        }
-      ]
-    },
-  ]);
   dynamic response;
 
   @override
   Widget build(BuildContext context) {
-    print(form);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -140,31 +71,44 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: new AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: new Text(widget.title),
+        title: new Text("Test Form Json Schema"),
       ),
-      body: new SingleChildScrollView(
-        child: new Container(
+      body:new Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
           child: new Column(children: <Widget>[
-            new CoreForm(
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(width: 2, color: Colors.red)
-              ),
-              form: form,
-              onChanged: (dynamic response) {
-                this.response = response;
+            new RaisedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/allfieldsv1');
               },
+              child: Text("All Fields V1"),
             ),
             new RaisedButton(
-                child: new Text('Send'),
-                onPressed: () {
-                  print(this.response.toString());
-                })
+              onPressed: () {
+                Navigator.pushNamed(context, '/allfields');
+              },
+              child: Text("All Fields"),
+            ),
+            new RaisedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/login');
+              },
+              child: Text("Login Form Test"),
+            ),
+            new RaisedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/register');
+              },
+              child: Text("Register Form Test"),
+            ),
+            new RaisedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/registerMap');
+              },
+              child: Text("Register Form Test with Map"),
+            ),
           ]),
         ),
-      ),
     );
   }
 }
