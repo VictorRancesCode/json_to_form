@@ -31,6 +31,7 @@ class _AllFields extends State<AllFields> {
         'type': 'Input',
         'label': 'Hi Group',
         'placeholder': "Hi Group flutter",
+        'value':'defaultValue',
         'required': true
       },
       {

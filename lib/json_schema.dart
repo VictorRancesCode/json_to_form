@@ -116,6 +116,7 @@ class _CoreFormState extends State<JsonSchema> {
               label,
               new TextFormField(
                 controller: null,
+                initialValue:  formGeneral['fields'][count]['value']??null,
                 decoration: item['decoration'] ??
                     widget.decorations[item['key']] ??
                     new InputDecoration(
