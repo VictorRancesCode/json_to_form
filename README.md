@@ -92,18 +92,24 @@ Map formMap = {
 * Email (has default validation)
 * TextArea
 * TextInput
-
 ```
 // Example for json string
+// to start with a default value you can add the value attribute
   String formString = json.encode({
     'fields': [
         {
-                'key': 'inputKey',
-                'type': 'Input',
-                'label': 'Hi Group',
-                'placeholder': "Hi Group flutter",
-                'validator': 'digitsOnly',
-                'required': true
+             'key': 'inputKey',
+             'type': 'Input',
+             'label': 'Hi Group',
+             'placeholder': "Hi Group flutter",
+             'required': true
+        },
+        {
+             'key': 'inputKey',
+             'type': 'Input',
+             'label': 'Initial Value',
+             'value': 'Hello'
+             'required': true
         },
     ]
  });

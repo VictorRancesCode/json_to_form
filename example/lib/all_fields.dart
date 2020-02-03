@@ -123,7 +123,6 @@ class _AllFields extends State<AllFields> {
 
   @override
   Widget build(BuildContext context) {
-    print(form);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -145,6 +144,7 @@ class _AllFields extends State<AllFields> {
               form: form,
               onChanged: (dynamic response) {
                 this.response = response;
+                print(response);
               },
               actionSave: (data) {
                 print(data);

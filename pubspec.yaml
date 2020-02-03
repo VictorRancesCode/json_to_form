@@ -1,6 +1,6 @@
 name: json_to_form
 description: A flutter plugin to use convert Json to Form Basic
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/VictorRancesCode/json_to_form
 
 dependencies:
