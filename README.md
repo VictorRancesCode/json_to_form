@@ -38,6 +38,7 @@ new JsonSchema(
     actionSave: (data) {
         print(data);
     },
+    autovalidateMode: AutovalidateMode.always,
     buttonSave: new Container(
         height: 40.0,
         color: Colors.blueAccent,
@@ -57,6 +58,7 @@ new JsonSchema(
 * decorations(Type Map) to add decoration (TextInput,Input, Password, Email or TextArea)
 * buttonSave(Type Widget) (not RaisedButton problem in onClick)
 * actionSave(Type Function) the function is called when you click on the widget buttonSave 
+* autovalidateMode(Type AutovalidateMode) validation type of the form (autovalidate  @Deprecated) use this instead
 
 ### Form
 Create Form String
@@ -64,7 +66,6 @@ Create Form String
 String formString = json.encode({
     'title': 'form example',
     'description':'',
-    'autoValidated': true, //default false
     'fields': [
         ...
     ]
@@ -75,7 +76,6 @@ Create Form Map
 Map formMap = {
     'title': 'form example',
     'description':'',
-    'autoValidated': true, //default false
     'fields': [
         ...
     ]
@@ -137,7 +137,8 @@ Map formMap = {
                           prefixIcon: Icon(Icons.account_box),
                           border: OutlineInputBorder(),
                 ),
-                'validation':validationExample
+                'validation':validationExample,
+                'keyboardType':TextInputType.number
         },
     ]
  };

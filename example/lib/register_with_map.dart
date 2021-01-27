@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:json_to_form/json_schema.dart';
 
 class RegisterMap extends StatefulWidget {
@@ -20,8 +21,10 @@ class RegisterMap extends StatefulWidget {
 }
 
 class _RegisterMap extends State<RegisterMap> {
+  Map keyboardTypes = {
+    "username": TextInputType.number,
+  };
   Map form = {
-    'autoValidated': false,
     'fields': [
       {
         'key': 'name',
@@ -100,6 +103,7 @@ class _RegisterMap extends State<RegisterMap> {
               actionSave: (data) {
                 print(data);
               },
+              autovalidateMode: AutovalidateMode.disabled,
               buttonSave: new Container(
                 height: 40.0,
                 color: Colors.blueAccent,
@@ -109,6 +113,7 @@ class _RegisterMap extends State<RegisterMap> {
                           color: Colors.white, fontWeight: FontWeight.bold)),
                 ),
               ),
+              form: null,
             ),
           ]),
         ),

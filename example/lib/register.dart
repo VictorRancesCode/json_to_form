@@ -21,7 +21,6 @@ class Register extends StatefulWidget {
 
 class _Register extends State<Register> {
   String form = json.encode({
-    'autoValidated': false,
     'fields': [
       {
         'key': 'name',
@@ -36,13 +35,20 @@ class _Register extends State<Register> {
         'label': 'Username',
         'placeholder': "Enter Your Username",
         'required': true,
-        'hiddenLabel':true,
+        'hiddenLabel': true,
       },
       {'key': 'email', 'type': 'Email', 'label': 'email', 'required': true},
       {
         'key': 'password1',
         'type': 'Password',
         'label': 'Password',
+        'required': true
+      },
+      {
+        'key': 'number',
+        'type': 'text',
+        'label': 'number',
+        'keyboardType': TextInputType.number,
         'required': true
       },
     ]
@@ -89,7 +95,7 @@ class _Register extends State<Register> {
                 "Register Form",
                 style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
               ),
-              margin: EdgeInsets.only(top:10.0),
+              margin: EdgeInsets.only(top: 10.0),
             ),
             new JsonSchema(
               decorations: decorations,

@@ -10,9 +10,11 @@ class JsonSchema extends StatefulWidget {
     @required this.onChanged,
     this.padding,
     this.formMap,
+    this.autovalidateMode,
     this.errorMessages = const {},
     this.validations = const {},
     this.decorations = const {},
+    this.keyboardTypes = const {},
     this.buttonSave,
     this.actionSave,
   });
@@ -20,12 +22,14 @@ class JsonSchema extends StatefulWidget {
   final Map errorMessages;
   final Map validations;
   final Map decorations;
+  final Map keyboardTypes;
   final String form;
   final Map formMap;
   final double padding;
   final Widget buttonSave;
   final Function actionSave;
   final ValueChanged<dynamic> onChanged;
+  final AutovalidateMode autovalidateMode;
 
   @override
   _CoreFormState createState() =>
@@ -86,10 +90,10 @@ class _CoreFormState extends State<JsonSchema> {
     if (formGeneral['description'] != null) {
       listWidget.add(Text(
         formGeneral['description'],
-        style: new TextStyle(fontSize: 14.0,fontStyle: FontStyle.italic),
+        style: new TextStyle(fontSize: 14.0, fontStyle: FontStyle.italic),
       ));
     }
-
+    print(formGeneral['fields']);
     for (var count = 0; count < formGeneral['fields'].length; count++) {
       Map item = formGeneral['fields'][count];
 
@@ -116,7 +120,7 @@ class _CoreFormState extends State<JsonSchema> {
               label,
               new TextFormField(
                 controller: null,
-                initialValue:  formGeneral['fields'][count]['value']??null,
+                initialValue: formGeneral['fields'][count]['value'] ?? null,
                 decoration: item['decoration'] ??
                     widget.decorations[item['key']] ??
                     new InputDecoration(
@@ -129,6 +133,9 @@ class _CoreFormState extends State<JsonSchema> {
                   _handleChanged();
                 },
                 obscureText: item['type'] == "Password" ? true : false,
+                keyboardType: item['keyboardType'] ??
+                    widget.keyboardTypes[item['key']] ??
+                    TextInputType.text,
                 validator: (value) {
                   if (widget.validations.containsKey(item['key'])) {
                     return widget.validations[item['key']](item, value);
@@ -333,9 +340,9 @@ class _CoreFormState extends State<JsonSchema> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Form(
-      autovalidate: formGeneral['autoValidated'] ?? false,
+      autovalidateMode:
+          formGeneral['autoValidated'] ?? AutovalidateMode.disabled,
       key: _formKey,
       child: new Container(
         padding: new EdgeInsets.all(widget.padding ?? 8.0),

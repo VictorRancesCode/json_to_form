@@ -15,7 +15,6 @@ class AllFields extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-
   @override
   _AllFields createState() => new _AllFields();
 }
@@ -23,15 +22,14 @@ class AllFields extends StatefulWidget {
 class _AllFields extends State<AllFields> {
   String form = json.encode({
     'title': 'Test Form Json Schema',
-    'description':'My Description',
-    'autoValidated': true,
+    'description': 'My Description',
     'fields': [
       {
         'key': 'input1',
         'type': 'Input',
         'label': 'Hi Group',
         'placeholder': "Hi Group flutter",
-        'value':'defaultValue',
+        'value': 'defaultValue',
         'required': true
       },
       {
@@ -101,7 +99,7 @@ class _AllFields extends State<AllFields> {
         'key': 'select1',
         'type': 'Select',
         'label': 'Select test',
-        'value':'product 1',
+        'value': 'product 1',
         'items': [
           {
             'label': "product 1",
@@ -149,11 +147,14 @@ class _AllFields extends State<AllFields> {
               actionSave: (data) {
                 print(data);
               },
+              autovalidateMode: AutovalidateMode.always,
               buttonSave: new Container(
                 height: 40.0,
                 color: Colors.blueAccent,
                 child: Center(
-                  child: Text("Send",style:TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
+                  child: Text("Send",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
                 ),
               ),
             ),
