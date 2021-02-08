@@ -20,6 +20,9 @@ class Register extends StatefulWidget {
 }
 
 class _Register extends State<Register> {
+  Map keyboardTypes = {
+    "number": TextInputType.number,
+  };
   String form = json.encode({
     'fields': [
       {
@@ -44,13 +47,7 @@ class _Register extends State<Register> {
         'label': 'Password',
         'required': true
       },
-      {
-        'key': 'number',
-        'type': 'text',
-        'label': 'number',
-        'keyboardType': TextInputType.number,
-        'required': true
-      },
+      {'key': 'number', 'type': 'Input', 'label': 'number', 'required': true},
     ]
   });
   dynamic response;
@@ -99,6 +96,7 @@ class _Register extends State<Register> {
             ),
             new JsonSchema(
               decorations: decorations,
+              keyboardTypes: keyboardTypes,
               form: form,
               onChanged: (dynamic response) {
                 this.response = response;

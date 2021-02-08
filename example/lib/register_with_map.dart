@@ -64,6 +64,13 @@ class _RegisterMap extends State<RegisterMap> {
         'decoration': InputDecoration(
             prefixIcon: Icon(Icons.security), border: OutlineInputBorder()),
       },
+      {
+        'key': 'number',
+        'type': 'Input',
+        'label': 'number',
+        'required': true,
+        'keyboardType': TextInputType.number
+      },
     ]
   };
   dynamic response;
