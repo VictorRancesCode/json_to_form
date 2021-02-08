@@ -1,6 +1,7 @@
 library json_to_form;
 
 import 'dart:convert';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -93,7 +94,7 @@ class _CoreFormState extends State<JsonSchema> {
         style: new TextStyle(fontSize: 14.0, fontStyle: FontStyle.italic),
       ));
     }
-    print(formGeneral['fields']);
+
     for (var count = 0; count < formGeneral['fields'].length; count++) {
       Map item = formGeneral['fields'][count];
 
@@ -312,6 +313,48 @@ class _CoreFormState extends State<JsonSchema> {
           ),
         ));
       }
+      if (item['type'] == "Date") {
+        Widget label = SizedBox.shrink();
+        if (labelHidden(item)) {
+          label = new Container(
+            child: new Text(
+              item['label'],
+              style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+            ),
+          );
+        }
+        listWidget.add(
+          new Container(
+            margin: new EdgeInsets.only(top: 5.0),
+            child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                label,
+                new Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    new TextFormField(
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: formGeneral['fields'][count]['value'] ?? "",
+                        prefixIcon: Icon(Icons.date_range_rounded),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            selectDate(count);
+                            _handleChanged();
+                          },
+                          icon: Icon(Icons.calendar_today_rounded),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      }
     }
 
     if (widget.buttonSave != null) {
@@ -334,6 +377,19 @@ class _CoreFormState extends State<JsonSchema> {
 
   void _handleChanged() {
     widget.onChanged(formGeneral);
+  }
+
+  Future selectDate(key) async {
+    DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: new DateTime.now().subtract(new Duration(days: 360)),
+        firstDate: new DateTime.now().subtract(new Duration(days: 360)),
+        lastDate: new DateTime.now().add(new Duration(days: 360)));
+
+    this.setState(() {
+      formGeneral['fields'][key]['value'] =
+          "${picked.year.toString()}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+    });
   }
 
   final _formKey = GlobalKey<FormState>();

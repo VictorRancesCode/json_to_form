@@ -69,7 +69,16 @@ class _RegisterMap extends State<RegisterMap> {
         'type': 'Input',
         'label': 'number',
         'required': true,
+        'decoration': InputDecoration(
+            prefixIcon: Icon(Icons.format_list_numbered),
+            border: OutlineInputBorder()),
         'keyboardType': TextInputType.number
+      },
+      {
+        'key': 'date',
+        'type': 'Date',
+        'label': 'date',
+        'required': true,
       },
     ]
   };
@@ -105,10 +114,9 @@ class _RegisterMap extends State<RegisterMap> {
               formMap: form,
               onChanged: (dynamic response) {
                 this.response = response;
-                print(response);
               },
               actionSave: (data) {
-                print(data);
+                print(data['fields'][5]);
               },
               autovalidateMode: AutovalidateMode.disabled,
               buttonSave: new Container(
