@@ -1,6 +1,6 @@
 # Convert Json to Form  for Flutter apps.
 
-### :fire: Star and Share :fire: the repo to support the project. Thanks :simple_smile: !
+### :fire: Star and Share :fire: the repo to support the project. Thanks!
 
 A flutter plugin to use convert Json to Form
 * [Example](https://github.com/VictorRancesCode/json_to_form/tree/master/example)
