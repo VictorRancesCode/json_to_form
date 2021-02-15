@@ -1,9 +1,11 @@
 library json_to_form;
 
 import 'dart:convert';
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'components/index.dart';
+import 'components/simple_date.dart';
+import 'components/simple_radios.dart';
 
 class JsonSchema extends StatefulWidget {
   const JsonSchema({
@@ -42,44 +44,6 @@ class _CoreFormState extends State<JsonSchema> {
 
   int radioValue;
 
-  // validators
-
-  String isRequired(item, value) {
-    if (value.isEmpty) {
-      return widget.errorMessages[item['key']] ?? 'Please enter some text';
-    }
-    return null;
-  }
-
-  String validateEmail(item, String value) {
-    String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
-        "\\@" +
-        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-        "(" +
-        "\\." +
-        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-        ")+";
-    RegExp regExp = new RegExp(p);
-
-    if (regExp.hasMatch(value)) {
-      return null;
-    }
-    return 'Email is not valid';
-  }
-
-  bool labelHidden(item) {
-    if (item.containsKey('hiddenLabel')) {
-      if (item['hiddenLabel'] is bool) {
-        return !item['hiddenLabel'];
-      }
-    } else {
-      return true;
-    }
-    return false;
-  }
-
-  // Return widgets
-
   List<Widget> jsonToForm() {
     List<Widget> listWidget = new List<Widget>();
     if (formGeneral['title'] != null) {
@@ -103,257 +67,75 @@ class _CoreFormState extends State<JsonSchema> {
           item['type'] == "Email" ||
           item['type'] == "TextArea" ||
           item['type'] == "TextInput") {
-        Widget label = SizedBox.shrink();
-        if (labelHidden(item)) {
-          label = new Container(
-            child: new Text(
-              item['label'],
-              style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-          );
-        }
-
-        listWidget.add(new Container(
-          margin: new EdgeInsets.only(top: 5.0),
-          child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              label,
-              new TextFormField(
-                controller: null,
-                initialValue: formGeneral['fields'][count]['value'] ?? null,
-                decoration: item['decoration'] ??
-                    widget.decorations[item['key']] ??
-                    new InputDecoration(
-                      hintText: item['placeholder'] ?? "",
-                      helperText: item['helpText'] ?? "",
-                    ),
-                maxLines: item['type'] == "TextArea" ? 10 : 1,
-                onChanged: (String value) {
-                  formGeneral['fields'][count]['value'] = value;
-                  _handleChanged();
-                },
-                obscureText: item['type'] == "Password" ? true : false,
-                keyboardType: item['keyboardType'] ??
-                    widget.keyboardTypes[item['key']] ??
-                    TextInputType.text,
-                validator: (value) {
-                  if (widget.validations.containsKey(item['key'])) {
-                    return widget.validations[item['key']](item, value);
-                  }
-                  if (item.containsKey('validator')) {
-                    if (item['validator'] != null) {
-                      if (item['validator'] is Function) {
-                        return item['validator'](item, value);
-                      }
-                    }
-                  }
-                  if (item['type'] == "Email") {
-                    return validateEmail(item, value);
-                  }
-
-                  if (item.containsKey('required')) {
-                    if (item['required'] == true ||
-                        item['required'] == 'True' ||
-                        item['required'] == 'true') {
-                      return isRequired(item, value);
-                    }
-                  }
-
-                  return null;
-                },
-              ),
-            ],
-          ),
+        listWidget.add(new SimpleText(
+          item: item,
+          onChange: onChange,
+          position: count,
+          decorations: widget.decorations,
+          errorMessages: widget.errorMessages,
+          validations: widget.validations,
+          keyboardTypes: widget.keyboardTypes,
         ));
       }
 
       if (item['type'] == "RadioButton") {
-        List<Widget> radios = [];
-
-        if (labelHidden(item)) {
-          radios.add(new Text(item['label'],
-              style:
-                  new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)));
-        }
-        radioValue = item['value'];
-        for (var i = 0; i < item['items'].length; i++) {
-          radios.add(
-            new Row(
-              children: <Widget>[
-                new Expanded(
-                    child: new Text(
-                        formGeneral['fields'][count]['items'][i]['label'])),
-                new Radio<int>(
-                    value: formGeneral['fields'][count]['items'][i]['value'],
-                    groupValue: radioValue,
-                    onChanged: (int value) {
-                      this.setState(() {
-                        radioValue = value;
-                        formGeneral['fields'][count]['value'] = value;
-                        _handleChanged();
-                      });
-                    })
-              ],
-            ),
-          );
-        }
-
-        listWidget.add(
-          new Container(
-            margin: new EdgeInsets.only(top: 5.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: radios,
-            ),
-          ),
-        );
+        listWidget.add(new SimpleRadios(
+          item: item,
+          onChange: onChange,
+          position: count,
+          decorations: widget.decorations,
+          errorMessages: widget.errorMessages,
+          validations: widget.validations,
+          keyboardTypes: widget.keyboardTypes,
+        ));
       }
 
       if (item['type'] == "Switch") {
-        if (item['value'] == null) {
-          formGeneral['fields'][count]['value'] = false;
-        }
-        listWidget.add(
-          new Container(
-            margin: new EdgeInsets.only(top: 5.0),
-            child: new Row(children: <Widget>[
-              new Expanded(child: new Text(item['label'])),
-              new Switch(
-                value: item['value'] ?? false,
-                onChanged: (bool value) {
-                  this.setState(() {
-                    formGeneral['fields'][count]['value'] = value;
-                    _handleChanged();
-                  });
-                },
-              ),
-            ]),
-          ),
-        );
+        listWidget.add(new SimpleSwitch(
+          item: item,
+          onChange: onChange,
+          position: count,
+          decorations: widget.decorations,
+          errorMessages: widget.errorMessages,
+          validations: widget.validations,
+          keyboardTypes: widget.keyboardTypes,
+        ));
       }
 
       if (item['type'] == "Checkbox") {
-        List<Widget> checkboxes = [];
-        if (labelHidden(item)) {
-          checkboxes.add(new Text(item['label'],
-              style:
-                  new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)));
-        }
-        for (var i = 0; i < item['items'].length; i++) {
-          checkboxes.add(
-            new Row(
-              children: <Widget>[
-                new Expanded(
-                    child: new Text(
-                        formGeneral['fields'][count]['items'][i]['label'])),
-                new Checkbox(
-                  value: formGeneral['fields'][count]['items'][i]['value'],
-                  onChanged: (bool value) {
-                    this.setState(
-                      () {
-                        formGeneral['fields'][count]['items'][i]['value'] =
-                            value;
-                        _handleChanged();
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
-          );
-        }
-
-        listWidget.add(
-          new Container(
-            margin: new EdgeInsets.only(top: 5.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: checkboxes,
-            ),
-          ),
-        );
+        listWidget.add(new SimpleListCheckbox(
+          item: item,
+          onChange: onChange,
+          position: count,
+          decorations: widget.decorations,
+          errorMessages: widget.errorMessages,
+          validations: widget.validations,
+          keyboardTypes: widget.keyboardTypes,
+        ));
       }
 
       if (item['type'] == "Select") {
-        Widget label = SizedBox.shrink();
-        if (labelHidden(item)) {
-          label = new Text(item['label'],
-              style:
-                  new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0));
-        }
-
-        listWidget.add(new Container(
-          margin: new EdgeInsets.only(top: 5.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              label,
-              new DropdownButton<String>(
-                hint: new Text("Select a user"),
-                value: formGeneral['fields'][count]['value'],
-                onChanged: (String newValue) {
-                  setState(() {
-                    formGeneral['fields'][count]['value'] = newValue;
-                    _handleChanged();
-                  });
-                },
-                items:
-                    item['items'].map<DropdownMenuItem<String>>((dynamic data) {
-                  return DropdownMenuItem<String>(
-                    value: data['value'],
-                    child: new Text(
-                      data['label'],
-                      style: new TextStyle(color: Colors.black),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
+        listWidget.add(new SimpleSelect(
+          item: item,
+          onChange: onChange,
+          position: count,
+          decorations: widget.decorations,
+          errorMessages: widget.errorMessages,
+          validations: widget.validations,
+          keyboardTypes: widget.keyboardTypes,
         ));
       }
+
       if (item['type'] == "Date") {
-        Widget label = SizedBox.shrink();
-        if (labelHidden(item)) {
-          label = new Container(
-            child: new Text(
-              item['label'],
-              style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-          );
-        }
-        listWidget.add(
-          new Container(
-            margin: new EdgeInsets.only(top: 5.0),
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                label,
-                new Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    new TextFormField(
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: formGeneral['fields'][count]['value'] ?? "",
-                        prefixIcon: Icon(Icons.date_range_rounded),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            selectDate(count);
-                            _handleChanged();
-                          },
-                          icon: Icon(Icons.calendar_today_rounded),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        );
+        listWidget.add(new SimpleDate(
+          item: item,
+          onChange: onChange,
+          position: count,
+          decorations: widget.decorations,
+          errorMessages: widget.errorMessages,
+          validations: widget.validations,
+          keyboardTypes: widget.keyboardTypes,
+        ));
       }
     }
 
@@ -370,6 +152,7 @@ class _CoreFormState extends State<JsonSchema> {
         ),
       ));
     }
+
     return listWidget;
   }
 
@@ -379,16 +162,10 @@ class _CoreFormState extends State<JsonSchema> {
     widget.onChanged(formGeneral);
   }
 
-  Future selectDate(key) async {
-    DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: new DateTime.now().subtract(new Duration(days: 360)),
-        firstDate: new DateTime.now().subtract(new Duration(days: 360)),
-        lastDate: new DateTime.now().add(new Duration(days: 360)));
-
+  void onChange(int position, dynamic value) {
     this.setState(() {
-      formGeneral['fields'][key]['value'] =
-          "${picked.year.toString()}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+      formGeneral['fields'][position]['value'] = value;
+      this._handleChanged();
     });
   }
 

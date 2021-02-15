@@ -99,6 +99,7 @@ class _Register extends State<Register> {
               keyboardTypes: keyboardTypes,
               form: form,
               onChanged: (dynamic response) {
+                print(jsonEncode(response));
                 this.response = response;
               },
               actionSave: (data) {

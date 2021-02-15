@@ -115,6 +115,11 @@ class _AllFields extends State<AllFields> {
           }
         ]
       },
+      {
+        'key':'date',
+        'type':'Date',
+        'label': 'Select test'
+      }
     ]
   });
   dynamic response;
@@ -142,10 +147,10 @@ class _AllFields extends State<AllFields> {
               form: form,
               onChanged: (dynamic response) {
                 this.response = response;
-                print(response);
+                print(jsonEncode(response));
               },
               actionSave: (data) {
-                print(data);
+                print(jsonEncode(data));
               },
               autovalidateMode: AutovalidateMode.always,
               buttonSave: new Container(

@@ -76,7 +76,9 @@ class _CoreFormState extends State<CoreForm> {
             hintText: item['placeholder'] ?? "",
           ),
           maxLines: item['type'] == "TareaText" ? 10 : 1,
-          keyboardType: item['keyboardType'][item['key']],
+          keyboardType: item['keyboardType'] != null
+              ? item['keyboardType'][item['key']]
+              : TextInputType.text,
           onChanged: (String value) {
             item['response'] = value;
             _handleChanged();
@@ -161,6 +163,13 @@ class _CoreFormState extends State<CoreForm> {
 
   void _handleChanged() {
     widget.onChanged(formItems);
+  }
+
+  void onChange(int position, dynamic value){
+    this.setState(() {
+      formItems[position]['value']= value;
+      _handleChanged();
+    });
   }
 
   @override
