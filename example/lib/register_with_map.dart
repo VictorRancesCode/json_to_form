@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:json_to_form/json_schema.dart';
 
 class RegisterMap extends StatefulWidget {
@@ -20,8 +21,10 @@ class RegisterMap extends StatefulWidget {
 }
 
 class _RegisterMap extends State<RegisterMap> {
+  Map keyboardTypes = {
+    "username": TextInputType.number,
+  };
   Map form = {
-    'autoValidated': false,
     'fields': [
       {
         'key': 'name',
@@ -61,6 +64,22 @@ class _RegisterMap extends State<RegisterMap> {
         'decoration': InputDecoration(
             prefixIcon: Icon(Icons.security), border: OutlineInputBorder()),
       },
+      {
+        'key': 'number',
+        'type': 'Input',
+        'label': 'number',
+        'required': true,
+        'decoration': InputDecoration(
+            prefixIcon: Icon(Icons.format_list_numbered),
+            border: OutlineInputBorder()),
+        'keyboardType': TextInputType.number
+      },
+      {
+        'key': 'date',
+        'type': 'Date',
+        'label': 'date',
+        'required': true,
+      },
     ]
   };
   dynamic response;
@@ -95,11 +114,11 @@ class _RegisterMap extends State<RegisterMap> {
               formMap: form,
               onChanged: (dynamic response) {
                 this.response = response;
-                print(response);
               },
               actionSave: (data) {
-                print(data);
+                print(data['fields'][5]);
               },
+              autovalidateMode: AutovalidateMode.disabled,
               buttonSave: new Container(
                 height: 40.0,
                 color: Colors.blueAccent,
@@ -109,6 +128,7 @@ class _RegisterMap extends State<RegisterMap> {
                           color: Colors.white, fontWeight: FontWeight.bold)),
                 ),
               ),
+              form: null,
             ),
           ]),
         ),

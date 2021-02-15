@@ -59,10 +59,10 @@ class _CoreFormState extends State<CoreForm> {
           inputFormatters: item['validator'] != null && item['validator'] != ''
               ? [
                   item['validator'] == 'digitsOnly'
-                      ? WhitelistingTextInputFormatter(RegExp('[0-9]'))
+                      ? FilteringTextInputFormatter.allow(RegExp('[0-9]'))
                       : null,
                   item['validator'] == 'textOnly'
-                      ? WhitelistingTextInputFormatter(RegExp('[a-zA-Z]'))
+                      ? FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]'))
                       : null,
                 ]
               : null,
@@ -76,6 +76,9 @@ class _CoreFormState extends State<CoreForm> {
             hintText: item['placeholder'] ?? "",
           ),
           maxLines: item['type'] == "TareaText" ? 10 : 1,
+          keyboardType: item['keyboardType'] != null
+              ? item['keyboardType'][item['key']]
+              : TextInputType.text,
           onChanged: (String value) {
             item['response'] = value;
             _handleChanged();
@@ -160,6 +163,13 @@ class _CoreFormState extends State<CoreForm> {
 
   void _handleChanged() {
     widget.onChanged(formItems);
+  }
+
+  void onChange(int position, dynamic value){
+    this.setState(() {
+      formItems[position]['value']= value;
+      _handleChanged();
+    });
   }
 
   @override

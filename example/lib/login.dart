@@ -11,7 +11,6 @@ class Login extends StatefulWidget {
 
 class _Login extends State<Login> {
   String form = json.encode({
-    'autoValidated': false,
     'fields': [
       {
         'key': 'input1',
@@ -30,16 +29,13 @@ class _Login extends State<Login> {
   });
   dynamic response;
 
-
-  Map decorations={
-    'input1':InputDecoration(
-        prefixIcon: Icon(Icons.account_box),
-        border: OutlineInputBorder(),
+  Map decorations = {
+    'input1': InputDecoration(
+      prefixIcon: Icon(Icons.account_box),
+      border: OutlineInputBorder(),
     ),
-    'password1':InputDecoration(
-        prefixIcon: Icon(Icons.security),
-        border: OutlineInputBorder()
-    ),
+    'password1': InputDecoration(
+        prefixIcon: Icon(Icons.security), border: OutlineInputBorder()),
   };
 
   @override
@@ -51,7 +47,10 @@ class _Login extends State<Login> {
       body: new SingleChildScrollView(
         child: new Center(
           child: new Column(children: <Widget>[
-            new Text("Login Form",style: TextStyle(fontSize: 30.0,fontWeight: FontWeight.bold),),
+            new Text(
+              "Login Form",
+              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+            ),
             new JsonSchema(
               decorations: decorations,
               form: form,
@@ -61,11 +60,14 @@ class _Login extends State<Login> {
               actionSave: (data) {
                 print(data);
               },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               buttonSave: new Container(
                 height: 40.0,
                 color: Colors.blueAccent,
                 child: Center(
-                  child: Text("Login",style:TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
+                  child: Text("Login",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
                 ),
               ),
             ),
