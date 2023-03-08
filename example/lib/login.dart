@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:json_to_form/json_schema.dart';
 
 class Login extends StatefulWidget {
-  Login({Key key}) : super(key: key);
+  Login({Key? key}) : super(key: key);
   @override
-  _Login createState() => new _Login();
+  _Login createState() => _Login();
 }
 
 class _Login extends State<Login> {
@@ -30,28 +30,28 @@ class _Login extends State<Login> {
   dynamic response;
 
   Map decorations = {
-    'input1': InputDecoration(
+    'input1': const InputDecoration(
       prefixIcon: Icon(Icons.account_box),
       border: OutlineInputBorder(),
     ),
-    'password1': InputDecoration(
+    'password1': const InputDecoration(
         prefixIcon: Icon(Icons.security), border: OutlineInputBorder()),
   };
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Login"),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Login"),
       ),
-      body: new SingleChildScrollView(
-        child: new Center(
-          child: new Column(children: <Widget>[
-            new Text(
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(children: <Widget>[
+            const Text(
               "Login Form",
               style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
             ),
-            new JsonSchema(
+            JsonSchema(
               decorations: decorations,
               form: form,
               onChanged: (dynamic response) {
@@ -61,10 +61,10 @@ class _Login extends State<Login> {
                 print(data);
               },
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              buttonSave: new Container(
+              buttonSave: Container(
                 height: 40.0,
                 color: Colors.blueAccent,
-                child: Center(
+                child: const Center(
                   child: Text("Login",
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold)),

@@ -1,15 +1,13 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../functions.dart';
 
 class SimpleText extends StatefulWidget {
   SimpleText({
-    Key key,
-    @required this.item,
-    @required this.onChange,
-    @required this.position,
+    Key? key,
+    required this.item,
+    required this.onChange,
+    required this.position,
     this.errorMessages = const {},
     this.validations = const {},
     this.decorations = const {},
@@ -30,7 +28,7 @@ class SimpleText extends StatefulWidget {
 class _SimpleText extends State<SimpleText> {
   dynamic item;
 
-  String isRequired(item, value) {
+  String? isRequired(item, value) {
     if (value.isEmpty) {
       return widget.errorMessages[item['key']] ?? 'Please enter some text';
     }
@@ -74,7 +72,7 @@ class _SimpleText extends State<SimpleText> {
             onChanged: (String value) {
               item['value'] = value;
               // _handleChanged();
-            //  print(value);
+              //  print(value);
               widget.onChange(widget.position, value);
             },
             obscureText: item['type'] == "Password" ? true : false,
@@ -93,7 +91,7 @@ class _SimpleText extends State<SimpleText> {
                 }
               }
               if (item['type'] == "Email") {
-                return Fun.validateEmail(item, value);
+                return Fun.validateEmail(item, value!);
               }
 
               if (item.containsKey('required')) {

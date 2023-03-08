@@ -3,10 +3,10 @@ import '../functions.dart';
 
 class SimpleRadios extends StatefulWidget {
   SimpleRadios({
-    Key key,
-    @required this.item,
-    @required this.onChange,
-    @required this.position,
+    Key? key,
+    required this.item,
+    required this.onChange,
+    required this.position,
     this.errorMessages = const {},
     this.validations = const {},
     this.decorations = const {},
@@ -26,9 +26,9 @@ class SimpleRadios extends StatefulWidget {
 
 class _SimpleRadios extends State<SimpleRadios> {
   dynamic item;
-  int radioValue;
+  late int radioValue;
 
-  String isRequired(item, value) {
+  String? isRequired(item, value) {
     if (value.isEmpty) {
       return widget.errorMessages[item['key']] ?? 'Please enter some text';
     }

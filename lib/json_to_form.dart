@@ -3,23 +3,22 @@ library json_to_form;
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:meta/meta.dart';
 
 class CoreForm extends StatefulWidget {
   final String form;
   final dynamic formMap;
-  final EdgeInsets padding;
-  final String labelText;
+  final EdgeInsets? padding;
+  final String? labelText;
   final ValueChanged<dynamic> onChanged;
-  final OutlineInputBorder enabledBorder;
-  final OutlineInputBorder errorBorder;
-  final OutlineInputBorder disabledBorder;
-  final OutlineInputBorder focusedErrorBorder;
-  final OutlineInputBorder focusedBorder;
+  final OutlineInputBorder? enabledBorder;
+  final OutlineInputBorder? errorBorder;
+  final OutlineInputBorder? disabledBorder;
+  final OutlineInputBorder? focusedErrorBorder;
+  final OutlineInputBorder? focusedBorder;
 
   const CoreForm({
-    @required this.form,
-    @required this.onChanged,
+    required this.form,
+    required this.onChanged,
     this.labelText,
     this.padding,
     this.formMap,
@@ -38,10 +37,10 @@ class CoreForm extends StatefulWidget {
 class _CoreFormState extends State<CoreForm> {
   final dynamic formItems;
 
-  int radioValue;
+  int? radioValue;
 
   List<Widget> jsonToForm() {
-    List<Widget> listWidget = new List<Widget>();
+    List<Widget> listWidget = [];
 
     for (var item in formItems) {
       if (item['type'] == "Input" ||
@@ -58,12 +57,10 @@ class _CoreFormState extends State<CoreForm> {
           controller: null,
           inputFormatters: item['validator'] != null && item['validator'] != ''
               ? [
-                  item['validator'] == 'digitsOnly'
-                      ? FilteringTextInputFormatter.allow(RegExp('[0-9]'))
-                      : null,
-                  item['validator'] == 'textOnly'
-                      ? FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]'))
-                      : null,
+                  if (item['validator'] == 'digitsOnly')
+                    FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+                  if (item['validator'] == 'textOnly')
+                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]'))
                 ]
               : null,
           decoration: new InputDecoration(
@@ -102,7 +99,7 @@ class _CoreFormState extends State<CoreForm> {
                 new Radio<int>(
                     value: item['list'][i]['value'],
                     groupValue: radioValue,
-                    onChanged: (int value) {
+                    onChanged: (int? value) {
                       this.setState(() {
                         radioValue = value;
                         item['value'] = value;
@@ -144,7 +141,7 @@ class _CoreFormState extends State<CoreForm> {
                 new Expanded(child: new Text(item['list'][i]['title'])),
                 new Checkbox(
                     value: item['list'][i]['value'],
-                    onChanged: (bool value) {
+                    onChanged: (bool? value) {
                       this.setState(() {
                         item['list'][i]['value'] = value;
                         _handleChanged();
@@ -165,18 +162,18 @@ class _CoreFormState extends State<CoreForm> {
     widget.onChanged(formItems);
   }
 
-  void onChange(int position, dynamic value){
+  void onChange(int position, dynamic value) {
     this.setState(() {
-      formItems[position]['value']= value;
+      formItems[position]['value'] = value;
       _handleChanged();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
+    return Container(
       padding: widget.padding ?? EdgeInsets.all(8),
-      child: new Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: jsonToForm(),
       ),

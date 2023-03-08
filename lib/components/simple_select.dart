@@ -1,15 +1,13 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../functions.dart';
 
 class SimpleSelect extends StatefulWidget {
   SimpleSelect({
-    Key key,
-    @required this.item,
-    @required this.onChange,
-    @required this.position,
+    Key? key,
+    required this.item,
+    required this.onChange,
+    required this.position,
     this.errorMessages = const {},
     this.validations = const {},
     this.decorations = const {},
@@ -30,7 +28,7 @@ class SimpleSelect extends StatefulWidget {
 class _SimpleSelect extends State<SimpleSelect> {
   dynamic item;
 
-  String isRequired(item, value) {
+  String? isRequired(item, value) {
     if (value.isEmpty) {
       return widget.errorMessages[item['key']] ?? 'Please enter some text';
     }
@@ -48,8 +46,7 @@ class _SimpleSelect extends State<SimpleSelect> {
     Widget label = SizedBox.shrink();
     if (Fun.labelHidden(item)) {
       label = new Text(item['label'],
-          style:
-          new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0));
+          style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0));
     }
     return new Container(
       margin: new EdgeInsets.only(top: 5.0),
@@ -60,14 +57,13 @@ class _SimpleSelect extends State<SimpleSelect> {
           new DropdownButton<String>(
             hint: new Text("Select a user"),
             value: item['value'],
-            onChanged: (String newValue) {
+            onChanged: (String? newValue) {
               setState(() {
                 item['value'] = newValue;
                 widget.onChange(widget.position, newValue);
               });
             },
-            items:
-            item['items'].map<DropdownMenuItem<String>>((dynamic data) {
+            items: item['items'].map<DropdownMenuItem<String>>((dynamic data) {
               return DropdownMenuItem<String>(
                 value: data['value'],
                 child: new Text(
@@ -81,5 +77,4 @@ class _SimpleSelect extends State<SimpleSelect> {
       ),
     );
   }
-
 }

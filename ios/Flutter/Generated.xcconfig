@@ -1,8 +1,14 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=/home/victor/ProyectosFlutter/development/flutter
-FLUTTER_APPLICATION_PATH=/home/victor/IdeaProjects/json_to_form
+FLUTTER_ROOT=/Users/rances/fvm/versions/3.7.3
+FLUTTER_APPLICATION_PATH=/Users/rances/Repositorio/Github/json_to_form
+COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_TARGET=lib/main.dart
-FLUTTER_BUILD_MODE=debug
 FLUTTER_BUILD_DIR=build
-SYMROOT=${SOURCE_ROOT}/../build/ios
-FLUTTER_FRAMEWORK_DIR=/home/victor/ProyectosFlutter/development/flutter/bin/cache/artifacts/engine/ios
+FLUTTER_BUILD_NAME=0.0.5
+FLUTTER_BUILD_NUMBER=0.0.5
+EXCLUDED_ARCHS[sdk=iphonesimulator*]=i386
+EXCLUDED_ARCHS[sdk=iphoneos*]=armv7
+DART_OBFUSCATION=false
+TRACK_WIDGET_CREATION=true
+TREE_SHAKE_ICONS=false
+PACKAGE_CONFIG=.dart_tool/package_config.json

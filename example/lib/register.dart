@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:json_to_form/json_schema.dart';
 
 class Register extends StatefulWidget {
-  Register({Key key}) : super(key: key);
+  Register({Key? key}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -16,7 +16,7 @@ class Register extends StatefulWidget {
   // always marked "final".
 
   @override
-  _Register createState() => new _Register();
+  _Register createState() => _Register();
 }
 
 class _Register extends State<Register> {
@@ -55,16 +55,16 @@ class _Register extends State<Register> {
   Map decorations = {
     'email': InputDecoration(
       hintText: 'Email',
-      prefixIcon: Icon(Icons.email),
-      contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+      prefixIcon: const Icon(Icons.email),
+      contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
     ),
-    'username': InputDecoration(
+    'username': const InputDecoration(
       labelText: "Enter your email",
       prefixIcon: Icon(Icons.account_box),
       border: OutlineInputBorder(),
     ),
-    'password1': InputDecoration(
+    'password1': const InputDecoration(
         prefixIcon: Icon(Icons.security), border: OutlineInputBorder()),
   };
 
@@ -76,25 +76,25 @@ class _Register extends State<Register> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: new Text("Login"),
+        title: const Text("Login"),
       ),
-      body: new SingleChildScrollView(
-        child: new Center(
+      body: SingleChildScrollView(
+        child: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
-          child: new Column(children: <Widget>[
-            new Container(
-              child: new Text(
+          child: Column(children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(top: 10.0),
+              child: const Text(
                 "Register Form",
                 style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
               ),
-              margin: EdgeInsets.only(top: 10.0),
             ),
-            new JsonSchema(
+            JsonSchema(
               decorations: decorations,
               keyboardTypes: keyboardTypes,
               form: form,
@@ -105,10 +105,10 @@ class _Register extends State<Register> {
               actionSave: (data) {
                 print(data);
               },
-              buttonSave: new Container(
+              buttonSave: Container(
                 height: 40.0,
                 color: Colors.blueAccent,
-                child: Center(
+                child: const Center(
                   child: Text("Register",
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold)),

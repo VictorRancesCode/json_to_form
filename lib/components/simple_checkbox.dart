@@ -1,15 +1,13 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../functions.dart';
 
 class SimpleListCheckbox extends StatefulWidget {
   SimpleListCheckbox({
-    Key key,
-    @required this.item,
-    @required this.onChange,
-    @required this.position,
+    Key? key,
+    required this.item,
+    required this.onChange,
+    required this.position,
     this.errorMessages = const {},
     this.validations = const {},
     this.decorations = const {},
@@ -31,7 +29,7 @@ class _SimpleListCheckbox extends State<SimpleListCheckbox> {
   dynamic item;
   List<dynamic> selectItems = [];
 
-  String isRequired(item, value) {
+  String? isRequired(item, value) {
     if (value.isEmpty) {
       return widget.errorMessages[item['key']] ?? 'Please enter some text';
     }
@@ -43,7 +41,7 @@ class _SimpleListCheckbox extends State<SimpleListCheckbox> {
     super.initState();
     item = widget.item;
     for (var i = 0; i < item['items'].length; i++) {
-      if(item['items'][i]['value']==true){
+      if (item['items'][i]['value'] == true) {
         selectItems.add(i);
       }
     }
@@ -63,11 +61,11 @@ class _SimpleListCheckbox extends State<SimpleListCheckbox> {
             new Expanded(child: new Text(item['items'][i]['label'])),
             new Checkbox(
               value: item['items'][i]['value'],
-              onChanged: (bool value) {
+              onChanged: (bool? value) {
                 this.setState(
                   () {
                     item['items'][i]['value'] = value;
-                    if (value) {
+                    if (value!) {
                       selectItems.add(i);
                     } else {
                       selectItems.remove(i);

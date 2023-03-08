@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:json_to_form/json_schema.dart';
 
 class RegisterMap extends StatefulWidget {
-  RegisterMap({Key key}) : super(key: key);
+  RegisterMap({Key? key}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -17,7 +17,7 @@ class RegisterMap extends StatefulWidget {
   // always marked "final".
 
   @override
-  _RegisterMap createState() => new _RegisterMap();
+  _RegisterMap createState() => _RegisterMap();
 }
 
 class _RegisterMap extends State<RegisterMap> {
@@ -39,7 +39,7 @@ class _RegisterMap extends State<RegisterMap> {
         'label': 'Username',
         'placeholder': "Enter Your Username",
         'required': true,
-        'decoration': InputDecoration(
+        'decoration': const InputDecoration(
           prefixIcon: Icon(Icons.account_box),
           border: OutlineInputBorder(),
         ),
@@ -51,8 +51,8 @@ class _RegisterMap extends State<RegisterMap> {
         'required': true,
         'decoration': InputDecoration(
           hintText: 'Email',
-          prefixIcon: Icon(Icons.email),
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          prefixIcon: const Icon(Icons.email),
+          contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
         ),
       },
@@ -61,7 +61,7 @@ class _RegisterMap extends State<RegisterMap> {
         'type': 'Password',
         'label': 'Password',
         'required': true,
-        'decoration': InputDecoration(
+        'decoration': const InputDecoration(
             prefixIcon: Icon(Icons.security), border: OutlineInputBorder()),
       },
       {
@@ -69,7 +69,7 @@ class _RegisterMap extends State<RegisterMap> {
         'type': 'Input',
         'label': 'number',
         'required': true,
-        'decoration': InputDecoration(
+        'decoration': const InputDecoration(
             prefixIcon: Icon(Icons.format_list_numbered),
             border: OutlineInputBorder()),
         'keyboardType': TextInputType.number
@@ -92,25 +92,25 @@ class _RegisterMap extends State<RegisterMap> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: new Text("Register Form with Map"),
+        title: const Text("Register Form with Map"),
       ),
-      body: new SingleChildScrollView(
-        child: new Center(
+      body: SingleChildScrollView(
+        child: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
-          child: new Column(children: <Widget>[
-            new Container(
-              child: new Text(
+          child: Column(children: <Widget>[
+            Container(
+              child: const Text(
                 "Register Form With Map",
                 style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
               ),
-              margin: EdgeInsets.only(top: 10.0),
+              margin: const EdgeInsets.only(top: 10.0),
             ),
-            new JsonSchema(
+            JsonSchema(
               formMap: form,
               onChanged: (dynamic response) {
                 this.response = response;
@@ -119,10 +119,10 @@ class _RegisterMap extends State<RegisterMap> {
                 print(data['fields'][5]);
               },
               autovalidateMode: AutovalidateMode.disabled,
-              buttonSave: new Container(
+              buttonSave: Container(
                 height: 40.0,
                 color: Colors.blueAccent,
-                child: Center(
+                child: const Center(
                   child: Text("Register",
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold)),

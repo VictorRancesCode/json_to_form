@@ -2,15 +2,12 @@ library json_to_form;
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'components/index.dart';
-import 'components/simple_date.dart';
-import 'components/simple_radios.dart';
 
 class JsonSchema extends StatefulWidget {
   const JsonSchema({
-    @required this.form,
-    @required this.onChanged,
+    this.form,
+    required this.onChanged,
     this.padding,
     this.formMap,
     this.autovalidateMode,
@@ -26,26 +23,27 @@ class JsonSchema extends StatefulWidget {
   final Map validations;
   final Map decorations;
   final Map keyboardTypes;
-  final String form;
-  final Map formMap;
-  final double padding;
-  final Widget buttonSave;
-  final Function actionSave;
+  final String? form;
+  final Map? formMap;
+  final double? padding;
+  final Widget? buttonSave;
+  final Function? actionSave;
   final ValueChanged<dynamic> onChanged;
-  final AutovalidateMode autovalidateMode;
+  final AutovalidateMode? autovalidateMode;
 
   @override
   _CoreFormState createState() =>
-      new _CoreFormState(formMap ?? json.decode(form));
+      new _CoreFormState(formMap ?? json.decode(form!));
 }
 
 class _CoreFormState extends State<JsonSchema> {
   final dynamic formGeneral;
 
-  int radioValue;
+  late int radioValue;
+  _CoreFormState(this.formGeneral);
 
   List<Widget> jsonToForm() {
-    List<Widget> listWidget = new List<Widget>();
+    List<Widget> listWidget = [];
     if (formGeneral['title'] != null) {
       listWidget.add(Text(
         formGeneral['title'],
@@ -67,7 +65,7 @@ class _CoreFormState extends State<JsonSchema> {
           item['type'] == "Email" ||
           item['type'] == "TextArea" ||
           item['type'] == "TextInput") {
-        listWidget.add(new SimpleText(
+        listWidget.add(SimpleText(
           item: item,
           onChange: onChange,
           position: count,
@@ -79,7 +77,7 @@ class _CoreFormState extends State<JsonSchema> {
       }
 
       if (item['type'] == "RadioButton") {
-        listWidget.add(new SimpleRadios(
+        listWidget.add(SimpleRadios(
           item: item,
           onChange: onChange,
           position: count,
@@ -91,7 +89,7 @@ class _CoreFormState extends State<JsonSchema> {
       }
 
       if (item['type'] == "Switch") {
-        listWidget.add(new SimpleSwitch(
+        listWidget.add(SimpleSwitch(
           item: item,
           onChange: onChange,
           position: count,
@@ -103,7 +101,7 @@ class _CoreFormState extends State<JsonSchema> {
       }
 
       if (item['type'] == "Checkbox") {
-        listWidget.add(new SimpleListCheckbox(
+        listWidget.add(SimpleListCheckbox(
           item: item,
           onChange: onChange,
           position: count,
@@ -115,7 +113,7 @@ class _CoreFormState extends State<JsonSchema> {
       }
 
       if (item['type'] == "Select") {
-        listWidget.add(new SimpleSelect(
+        listWidget.add(SimpleSelect(
           item: item,
           onChange: onChange,
           position: count,
@@ -127,7 +125,7 @@ class _CoreFormState extends State<JsonSchema> {
       }
 
       if (item['type'] == "Date") {
-        listWidget.add(new SimpleDate(
+        listWidget.add(SimpleDate(
           item: item,
           onChange: onChange,
           position: count,
@@ -139,13 +137,13 @@ class _CoreFormState extends State<JsonSchema> {
       }
     }
 
-    if (widget.buttonSave != null) {
+    if (widget.buttonSave != null && widget.actionSave != null) {
       listWidget.add(new Container(
         margin: EdgeInsets.only(top: 10.0),
         child: InkWell(
           onTap: () {
-            if (_formKey.currentState.validate()) {
-              widget.actionSave(formGeneral);
+            if (_formKey.currentState!.validate()) {
+              widget.actionSave!(formGeneral);
             }
           },
           child: widget.buttonSave,
@@ -155,8 +153,6 @@ class _CoreFormState extends State<JsonSchema> {
 
     return listWidget;
   }
-
-  _CoreFormState(this.formGeneral);
 
   void _handleChanged() {
     widget.onChanged(formGeneral);
@@ -177,9 +173,9 @@ class _CoreFormState extends State<JsonSchema> {
       autovalidateMode:
           formGeneral['autoValidated'] ?? AutovalidateMode.disabled,
       key: _formKey,
-      child: new Container(
-        padding: new EdgeInsets.all(widget.padding ?? 8.0),
-        child: new Column(
+      child: Container(
+        padding: EdgeInsets.all(widget.padding ?? 8.0),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: jsonToForm(),
         ),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:json_to_form/json_to_form.dart';
 
 class AllFieldsV1 extends StatefulWidget {
-  AllFieldsV1({Key key, this.title}) : super(key: key);
+  AllFieldsV1({Key? key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -15,21 +15,24 @@ class AllFieldsV1 extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
+  final String? title;
 
   @override
-  _AllFieldsV1 createState() => new _AllFieldsV1();
+  _AllFieldsV1 createState() => _AllFieldsV1();
 }
 
 class _AllFieldsV1 extends State<AllFieldsV1> {
-
-
   String sendEmailForm = json.encode([
     {'type': 'Input', 'title': 'Subject', 'placeholder': "Subject"},
     {'type': 'TareaText', 'title': 'Message', 'placeholder': "Content"},
   ]);
   String form = json.encode([
-    {'type': 'Input', 'title': 'Hi Group', 'placeholder': "Hi Group flutter", 'validator': 'digitsOnly'},
+    {
+      'type': 'Input',
+      'title': 'Hi Group',
+      'placeholder': "Hi Group flutter",
+      'validator': 'digitsOnly'
+    },
     {
       'type': 'Password',
       'title': 'Password',
@@ -112,29 +115,29 @@ class _AllFieldsV1 extends State<AllFieldsV1> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: new Text("All Fields V1"),
+        title: const Text("All Fields V1"),
       ),
-      body: new SingleChildScrollView(
-        child: new Container(
+      body: SingleChildScrollView(
+        child: Container(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
-          child: new Column(children: <Widget>[
-            new CoreForm(
+          child: Column(children: <Widget>[
+            CoreForm(
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(width: 2, color: Colors.red)
-              ),
+                  borderSide: const BorderSide(width: 2, color: Colors.red)),
               form: form,
               onChanged: (dynamic response) {
+                print(response);
                 this.response = response;
               },
             ),
-            new RaisedButton(
-                child: new Text('Send'),
+            TextButton(
+                child: const Text('Send'),
                 onPressed: () {
                   print(this.response.toString());
                 })

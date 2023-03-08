@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:json_to_form/json_schema.dart';
 
 class AllFields extends StatefulWidget {
-  AllFields({Key key}) : super(key: key);
+  AllFields({Key? key}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -16,7 +16,7 @@ class AllFields extends StatefulWidget {
   // always marked "final".
 
   @override
-  _AllFields createState() => new _AllFields();
+  _AllFields createState() => _AllFields();
 }
 
 class _AllFields extends State<AllFields> {
@@ -115,11 +115,7 @@ class _AllFields extends State<AllFields> {
           }
         ]
       },
-      {
-        'key':'date',
-        'type':'Date',
-        'label': 'Select test'
-      }
+      {'key': 'date', 'type': 'Date', 'label': 'Select test'}
     ]
   });
   dynamic response;
@@ -132,18 +128,18 @@ class _AllFields extends State<AllFields> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: new Text("All Fields"),
+        title: const Text("All Fields"),
       ),
-      body: new SingleChildScrollView(
-        child: new Container(
+      body: SingleChildScrollView(
+        child: Container(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
-          child: new Column(children: <Widget>[
-            new JsonSchema(
+          child: Column(children: <Widget>[
+            JsonSchema(
               form: form,
               onChanged: (dynamic response) {
                 this.response = response;
@@ -153,10 +149,10 @@ class _AllFields extends State<AllFields> {
                 print(jsonEncode(data));
               },
               autovalidateMode: AutovalidateMode.always,
-              buttonSave: new Container(
+              buttonSave: Container(
                 height: 40.0,
                 color: Colors.blueAccent,
-                child: Center(
+                child: const Center(
                   child: Text("Send",
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold)),
