@@ -55,7 +55,7 @@ class _SimpleSelect extends State<SimpleSelect> {
         children: <Widget>[
           label,
           new DropdownButton<String>(
-            hint: new Text("Select a user"),
+            hint: new Text(item['label']),
             value: item['value'],
             onChanged: (String? newValue) {
               setState(() {
